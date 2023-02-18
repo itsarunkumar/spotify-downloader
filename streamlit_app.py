@@ -15,6 +15,6 @@ song_name = st.text_input('Song Name')
 if st.button('Download'):
     search = Search(song_name)
     results = search.results[0].watch_url
-    yt = YouTube(results).streams.get_audio_only().download()
+    yt = YouTube(results).streams.get_by_itag(251).download()
     st.audio(yt)
     st.write('Downloaded')
