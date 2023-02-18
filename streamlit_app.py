@@ -20,5 +20,9 @@ if st.button('Download'):
     # make yt file downloadable
     st.write(yt)
 
+    with yt.open('rb') as f:
+        btn = st.download_button(label='Download', data=f,
+                                 file_name=f'{song_name}.mp3', mime='audio/mp3')
+
     st.download_button(label='Download', data=yt,
                        file_name=f'{song_name}.mp3', mime='audio/mp3')
