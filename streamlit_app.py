@@ -17,4 +17,10 @@ if st.button('Download'):
     results = search.results[0].watch_url
     yt = YouTube(results).streams.get_by_itag(251).download()
     st.audio(yt)
-    st.write('Downloaded')
+    # make yt file downloadable
+    audio_file = open(yt, 'rb')
+    audio_bytes = audio_file.read()
+    with audio_bytes as f:
+        st.audio(f)
+        st.download_button(label='Download', data=audio_bytes,
+                           file_name='song.mp3', mime='audio/mp3')
