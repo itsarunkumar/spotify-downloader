@@ -19,29 +19,22 @@ if st.button("Download"):
         track = item['track']
         st.write(idx, track['artists'][0]['name'], " – ", track['name'])
         search = Search(track['artists'][0]['name'] + " – " + track['name'])
+        if not search.results:
+            st.write("No results found")
+            continue
         yt = YouTube(
-            search.results[0].watch_url).streams.get_highest_resolution()
+            search.results[0].watch_url).streams.get_by_itag(251)
+
         if not yt:
-            st.write("Error: Could not download " +
-                     track['artists'][0]['name'] + " – " + track['name'])
+            st.write("No audio found")
             continue
 
         download_file = yt.download()
         if not download_file:
-            st.write("Error: Could not download " +
-                     track['artists'][0]['name'] + " – " + track['name'])
+            st.write("Download failed")
             continue
 
+        st.download_button(download_file, "Download")
 
-        clip = mp.VideoFileClip(download_file)
-        if not clip:
-            st.write("Error: Could not download " +
-                     track['artists'][0]['name'] + " – " + track['name'])
-            continue
-        audio = clip.audio.write_audiofile(
-            track['artists'][0]['name'] + " – " + track['name'] + ".mp3")
-
-        st.write("Downloaded: " + track['artists']
+        st.write("Downloaded" + track['artists']
                  [0]['name'] + " – " + track['name'])
-
-    st.write("Downloaded all songs")
