@@ -16,13 +16,12 @@ if st.button('Download'):
     search = Search(song_name)
     results = search.results[0].watch_url
     yt = YouTube(results).streams.get_by_itag(251).download()
-    st.audio(yt)
-    # make yt file downloadable
-    st.write(yt)
+    if not yt:
+        st.write('Song not found')
+    else:
+        st.write('Song found')
+        st.audio(yt)
 
-    with yt.open('rb') as f:
-        btn = st.download_button(label='Download', data=f,
-                                 file_name=f'{song_name}.mp3', mime='audio/mp3')
-
-    st.download_button(label='Download', data=yt,
-                       file_name=f'{song_name}.mp3', mime='audio/mp3')
+        with yt.open('rb') as f:
+            btn = st.download_button(label='Download', data=f,
+                                     file_name=f'{song_name}.mp3', mime='audio/mp3')
