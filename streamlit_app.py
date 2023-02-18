@@ -23,9 +23,14 @@ if st.button("Download"):
             search.results[0].watch_url).streams.get_highest_resolution()
         download_file = yt.download()
         clip = mp.VideoFileClip(download_file)
+        if not clip:
+            st.write("Error: Could not download " +
+                     track['artists'][0]['name'] + " – " + track['name'])
+            continue
         audio = clip.audio.write_audiofile(
             track['artists'][0]['name'] + " – " + track['name'] + ".mp3")
-        st.audio(audio)
+
         st.write("Downloaded: " + track['artists']
                  [0]['name'] + " – " + track['name'])
-        st.download_button('Download' , audio)
+
+    st.write("Downloaded all songs")
