@@ -16,5 +16,5 @@ if st.button('Download'):
     search = Search(song_name)
     results = search.results[0].watch_url
     yt = YouTube(results).streams.get_audio_only().download()
-    st.download_button('Download', yt)
+    st.audio(yt)
     st.write('Downloaded')
