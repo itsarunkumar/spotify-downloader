@@ -21,7 +21,18 @@ if st.button("Download"):
         search = Search(track['artists'][0]['name'] + " – " + track['name'])
         yt = YouTube(
             search.results[0].watch_url).streams.get_highest_resolution()
+        if not yt:
+            st.write("Error: Could not download " +
+                     track['artists'][0]['name'] + " – " + track['name'])
+            continue
+
         download_file = yt.download()
+        if not download_file:
+            st.write("Error: Could not download " +
+                     track['artists'][0]['name'] + " – " + track['name'])
+            continue
+
+
         clip = mp.VideoFileClip(download_file)
         if not clip:
             st.write("Error: Could not download " +
