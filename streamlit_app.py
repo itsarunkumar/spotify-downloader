@@ -8,8 +8,6 @@ from pytube import YouTube, Search
 
 st.header('Spotify Song Downloader')
 
-st.title('Spotify Song Downloader')
-
 st.write('Enter the name of the song you want to download')
 
 song_name = st.text_input('Song Name')
@@ -17,13 +15,9 @@ song_name = st.text_input('Song Name')
 if st.button('Download'):
     search = Search(song_name)
     results = search.results[0].watch_url
-    yt = YouTube(results).streams.get_by_itag(251).download()
+    yt = YouTube(results).streams.get_by_itag(251)
     if not yt:
         st.write('Song not found')
     else:
         st.write('Song found')
-        st.audio(yt)
-
-        with yt.open('rb') as f:
-            btn = st.download_button(label='Download', data=f,
-                                     file_name=f'{song_name}.mp3', mime='audio/mp3')
+        st.write(yt)
